@@ -1,9 +1,45 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { useEffect, useRef } from 'react'
+import { Power3, Power4, TweenMax } from 'gsap'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  let logoItem = useRef(null)
+  let textItem = useRef(null)
+  let logoVercel = useRef(null)
+
+  console.log(logoItem);
+  
+
+  useEffect(()=> {
+      console.log(logoItem);
+      // logoItem.style.display = 'none'
+      TweenMax.to(
+        logoItem,
+        .8,
+        {
+          opacity: 1,
+          y: -20,
+          ease: Power3.easeOut
+        }
+      )
+
+      TweenMax.to(
+        textItem,
+        .8,
+        {
+          opacity: 1,
+          y: -20,
+          ease: Power3.easeOut,
+          delay: .2
+        }
+      )
+
+      TweenMax.from(logoVercel, .8, {opacity: 1, x: 40, ease: Power3.easeOut, delay: .4})
+  },[])
+
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -21,10 +57,12 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             By{' '}
+
             <Image
+              ref={el => logoVercel = el}
               src="/vercel.svg"
               alt="Vercel Logo"
-              className="dark:invert"
+              className="dark:invert opacity-0"
               width={100}
               height={24}
               priority
@@ -34,9 +72,11 @@ export default function Home() {
       </div>
 
       <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
+        
         <Image
           className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
           src="/next.svg"
+          ref={el => {logoItem = el}}
           alt="Next.js Logo"
           width={180}
           height={37}
@@ -51,7 +91,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
+          <h2 className={`mb-3 text-2xl font-semibold opacity-0`} ref={el => {textItem = el}}>
             Docs{' '}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
